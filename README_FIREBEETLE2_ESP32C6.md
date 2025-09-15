@@ -52,9 +52,8 @@
    }
    ```
   
-  This file can be downloaded from https://github.com/epsilonrt/platform-espressif32/blob/develop/boards/dfrobot_firebeetle2_esp32c6.json
+This file can be downloaded from https://github.com/epsilonrt/platform-espressif32/blob/develop/boards/dfrobot_firebeetle2_esp32c6.json
 
-This file **
 
 2. **Configure your PlatformIO project**
 
