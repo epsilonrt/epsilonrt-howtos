@@ -17,6 +17,10 @@ formation prépare des techniciens qui interviennent aussi bien sur
 l'électronique embarquée que sur les réseaux et l'administration système —
 c'est-à-dire exactement l'étendue des sujets traités ici.
 
+Les dépôts de projets des étudiants sont regroupés dans l'organisation
+[btsciel-toulon](https://github.com/btsciel-toulon) — pour l'essentiel privés,
+puisqu'il s'agit de travaux en cours d'évaluation.
+
 Cela dit, rien n'est enfermé dans ce cadre. Certains documents supposent un
 environnement précis — postes Windows 11 en domaine Active Directory, disque
 réseau personnel, conventions de nommage propres aux salles — mais la technique

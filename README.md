@@ -18,6 +18,10 @@ Computing and Networks, Electronics. The programme trains technicians who work
 across embedded electronics, networking and system administration, which is
 exactly the range of subjects these notes cover.
 
+The programme's student project repositories live in the
+[btsciel-toulon](https://github.com/btsciel-toulon) organization — mostly
+private, as they are coursework under assessment.
+
 That said, nothing here is locked to that context. Some documents assume a
 specific environment — Windows 11 workstations in an Active Directory domain, a
 personal network drive, lab-specific host naming — but the underlying technique
