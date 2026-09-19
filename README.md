@@ -1,5 +1,53 @@
 # epsilonrt-howtos
 
-This repository aims to centralize my notes explaining how to accomplish a number of tasks and solve problems.
+*[Version française](README_fr.md)*
 
+This repository centralizes my notes explaining how to accomplish a number of
+tasks and solve problems.
 
+## Who this is for
+
+These notes are written first and foremost for the **BTS CIEL** programme at
+[Lycée Rouvière – Suzanne Lefort-Rouquette](https://www.lycee-rouviere.fr/index.php/superieur/b-t-s/systemes-numeriques-option-b)
+in Toulon, France.
+
+A *BTS* (Brevet de Technicien Supérieur) is a two-year, vocationally oriented
+higher education diploma taught in French *lycées*. *CIEL* stands for
+**Cybersécurité, Informatique et réseaux, Électronique** — Cybersecurity,
+Computing and Networks, Electronics. The programme trains technicians who work
+across embedded electronics, networking and system administration, which is
+exactly the range of subjects these notes cover.
+
+That said, nothing here is locked to that context. Some documents assume a
+specific environment — Windows 11 workstations in an Active Directory domain, a
+personal network drive, lab-specific host naming — but the underlying technique
+is general, and the environment-specific parts are always spelled out. If you
+landed here from a search engine, you are welcome.
+
+## Contents
+
+| Topic | Language |
+|---|---|
+| [SSH keys for remote development](dev/ssh-key/) — generating a key pair, keeping it usable across shared workstations, declaring it on a Raspberry Pi | French |
+| [DFRobot FireBeetle 2 ESP32-C6 with PlatformIO](dev/pio-firebeetle2/) — adding the board definition and building with the Arduino framework | French |
+
+## A note on languages
+
+Documents aimed at students are written in **French**, the teaching language.
+More general notes may be in English. Each entry in the table above says which.
+
+## Licence
+
+**Documentation, text and illustrations** are released under
+[Creative Commons Attribution 4.0 International](LICENSE) (CC BY 4.0). You may
+share and adapt them, including commercially, as long as you give credit:
+
+> Pascal JEAN (epsilonrt), lycée Rouvière, Toulon —
+> https://github.com/epsilonrt/epsilonrt-howtos
+
+**Code snippets and configuration files** carry no such requirement: use them
+freely, without attribution. Creative Commons licences are not designed for
+software, and a board definition or a handful of shell commands should not come
+with strings attached.
+
+If something here saves you an afternoon, that is reason enough for it to exist.

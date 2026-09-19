@@ -1,16 +1,16 @@
-# Using DFRobot FireBeetle 2 ESP32-C6 with PlatformIO (Arduino Framework)
+# Utiliser la DFRobot FireBeetle 2 ESP32-C6 avec PlatformIO (framework Arduino)
 
-## Prerequisites
+## Prérequis
 
-- PlatformIO installed (via VSCode extension or `pip install platformio`)
-- Access to a PioArduino platform repository:
+- PlatformIO installé (via l'extension VSCode ou `pip install platformio`)
+- Accès à un dépôt de plateforme PioArduino :
   - [pioarduino/platform-espressif32](https://github.com/pioarduino/platform-espressif32)
 
-## Adding the FireBeetle 2 ESP32-C6 Board Definition
+## Ajouter la définition de carte FireBeetle 2 ESP32-C6
 
-1. **Add the board definition file to the `boards/` directory of your custom platform repo.**
+1. **Placez le fichier de définition de carte dans le dossier `boards/` de votre dépôt de plateforme personnalisé.**
 
-   Example: `boards/dfrobot_firebeetle2_esp32c6.json`
+   Exemple : `boards/dfrobot_firebeetle2_esp32c6.json`
    ```json
    {
      "build": {
@@ -51,13 +51,12 @@
      "vendor": "DFRobot"
    }
    ```
-  
-This file can be downloaded from https://github.com/epsilonrt/platform-espressif32/blob/develop/boards/dfrobot_firebeetle2_esp32c6.json
 
+Ce fichier peut être téléchargé depuis https://github.com/epsilonrt/platform-espressif32/blob/develop/boards/dfrobot_firebeetle2_esp32c6.json
 
-2. **Configure your PlatformIO project**
+2. **Configurez votre projet PlatformIO**
 
-   In your `platformio.ini`:
+   Dans votre `platformio.ini` :
    ```ini
    [env:dfrobot_firebeetle2_esp32c6]
    platform = https://github.com/pioarduino/platform-espressif32.git
@@ -65,18 +64,18 @@ This file can be downloaded from https://github.com/epsilonrt/platform-espressif
    framework = arduino
    ```
 
-3. **Build and upload as usual**
+3. **Compilez et téléversez comme d'habitude**
    ```sh
    pio run
    pio run --target upload
    ```
 
-## Resources
+## Ressources
 
-- [DFRobot FireBeetle 2 ESP32-C6 Wiki](https://wiki.dfrobot.com/SKU_DFR1075_FireBeetle_2_Board_ESP32_C6/)
-- [Arduino-ESP32 Core (C6 support)](https://github.com/espressif/arduino-esp32)
-- [PlatformIO Documentation](https://docs.platformio.org/)
+- [Wiki DFRobot FireBeetle 2 ESP32-C6](https://wiki.dfrobot.com/SKU_DFR1075_FireBeetle_2_Board_ESP32_C6/)
+- [Cœur Arduino-ESP32 (prise en charge du C6)](https://github.com/espressif/arduino-esp32)
+- [Documentation PlatformIO](https://docs.platformio.org/)
 
 ---
 
-*Guide generated with GitHub Copilot assistance.*
+*Guide rédigé avec l'assistance de GitHub Copilot.*
