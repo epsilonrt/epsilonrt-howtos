@@ -63,7 +63,7 @@ More general notes may be in English. Each entry in the table above says which.
 share and adapt them, including commercially, as long as you give credit:
 
 > Pascal JEAN (epsilonrt), lycée Rouvière, Toulon —
-> https://github.com/epsilonrt/epsilonrt-labs
+> https://github.com/btsciel-toulon/epsilonrt-labs
 
 **Code snippets and configuration files** carry no such requirement: use them
 freely, without attribution. Creative Commons licences are not designed for

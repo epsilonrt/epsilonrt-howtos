@@ -65,7 +65,7 @@ pouvez les partager et les adapter, y compris commercialement, à condition de
 créditer la source :
 
 > Pascal JEAN (epsilonrt), lycée Rouvière, Toulon —
-> https://github.com/epsilonrt/epsilonrt-labs
+> https://github.com/btsciel-toulon/epsilonrt-labs
 
 **Les extraits de code et les fichiers de configuration** échappent à cette
 obligation : réutilisez-les librement, sans attribution. Les licences Creative
