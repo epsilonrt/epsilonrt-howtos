@@ -1,4 +1,4 @@
-# epsilonrt-howtos
+# epsilonrt-labs
 
 *[English version](README.md)*
 
@@ -25,10 +25,27 @@ Si vous arrivez ici par un moteur de recherche, vous êtes le bienvenu.
 
 ## Sommaire
 
-| Sujet | Langue |
+Deux natures de contenu, volontairement séparées.
+
+### [`labs/`](labs/) — tutoriels et travaux pratiques
+
+Faits pour être lus du début à la fin : ils expliquent le principe avant le
+geste, disent pourquoi les choses sont ainsi, et précisent ce qu'on doit voir à
+chaque étape.
+
+| Lab | Langue |
 |---|---|
-| [Clés SSH pour le développement à distance](dev/ssh-key/) — créer une paire de clés, la garder utilisable d'un poste partagé à l'autre, la déclarer sur un Raspberry Pi | français |
-| [DFRobot FireBeetle 2 ESP32-C6 avec PlatformIO](dev/pio-firebeetle2/) — ajouter la définition de carte et compiler avec le framework Arduino | français |
+| [Clés SSH pour le développement à distance](labs/ssh-key/) — créer une paire de clés, la garder utilisable d'un poste partagé à l'autre, la déclarer sur un Raspberry Pi | français |
+
+### [`how-to/`](how-to/) — procédures ponctuelles
+
+Faites pour être parcourues en diagonale : une manipulation précise, le
+contexte supposé connu, et les commandes qui règlent la question. Classées par
+outil.
+
+| Procédure | Langue |
+|---|---|
+| [DFRobot FireBeetle 2 ESP32-C6 avec PlatformIO](how-to/platformio/boards/firebeetle2/) — ajouter la définition de carte et compiler avec le framework Arduino | français |
 
 ## À propos des langues
 
@@ -44,7 +61,7 @@ pouvez les partager et les adapter, y compris commercialement, à condition de
 créditer la source :
 
 > Pascal JEAN (epsilonrt), lycée Rouvière, Toulon —
-> https://github.com/epsilonrt/epsilonrt-howtos
+> https://github.com/epsilonrt/epsilonrt-labs
 
 **Les extraits de code et les fichiers de configuration** échappent à cette
 obligation : réutilisez-les librement, sans attribution. Les licences Creative

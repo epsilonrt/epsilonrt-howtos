@@ -1,4 +1,4 @@
-# epsilonrt-howtos
+# epsilonrt-labs
 
 *[Version française](README_fr.md)*
 
@@ -26,10 +26,26 @@ landed here from a search engine, you are welcome.
 
 ## Contents
 
-| Topic | Language |
+Two kinds of material, deliberately kept apart.
+
+### [`labs/`](labs/) — tutorials and lab assignments
+
+Written to be read from beginning to end: they explain the principle before the
+procedure, say why things are the way they are, and state what you should see
+at every step.
+
+| Lab | Language |
 |---|---|
-| [SSH keys for remote development](dev/ssh-key/) — generating a key pair, keeping it usable across shared workstations, declaring it on a Raspberry Pi | French |
-| [DFRobot FireBeetle 2 ESP32-C6 with PlatformIO](dev/pio-firebeetle2/) — adding the board definition and building with the Arduino framework | French |
+| [SSH keys for remote development](labs/ssh-key/) — generating a key pair, keeping it usable across shared workstations, declaring it on a Raspberry Pi | French |
+
+### [`how-to/`](how-to/) — short procedures
+
+Written to be skimmed: one specific task, the context assumed known, and the
+commands that settle it. Sorted by tool.
+
+| Procedure | Language |
+|---|---|
+| [DFRobot FireBeetle 2 ESP32-C6 with PlatformIO](how-to/platformio/boards/firebeetle2/) — adding the board definition and building with the Arduino framework | French |
 
 ## A note on languages
 
@@ -43,7 +59,7 @@ More general notes may be in English. Each entry in the table above says which.
 share and adapt them, including commercially, as long as you give credit:
 
 > Pascal JEAN (epsilonrt), lycée Rouvière, Toulon —
-> https://github.com/epsilonrt/epsilonrt-howtos
+> https://github.com/epsilonrt/epsilonrt-labs
 
 **Code snippets and configuration files** carry no such requirement: use them
 freely, without attribution. Creative Commons licences are not designed for
