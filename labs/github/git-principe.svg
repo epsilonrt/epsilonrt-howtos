@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Principe de Git : fichiers de travail, index, historique local des commits, puis depot distant GitHub">
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#37474f"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2e7d32"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a237e"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="400" fill="#ffffff"/>
+
+  <!-- Zone locale -->
+  <rect x="20" y="20" width="610" height="250" rx="12" fill="#f5f7fa" stroke="#90a4ae" stroke-width="1.5"/>
+  <text x="40" y="48" font-size="16" font-weight="600" fill="#1a237e">Sur votre disque U: (le dépôt local)</text>
+
+  <!-- Fichiers de travail -->
+  <rect x="40" y="80" width="150" height="120" rx="8" fill="#ffffff" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="115" y="108" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">Fichiers</text>
+  <text x="115" y="126" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">de travail</text>
+  <text x="115" y="152" font-size="12" fill="#546e7a" text-anchor="middle">ce que vous</text>
+  <text x="115" y="168" font-size="12" fill="#546e7a" text-anchor="middle">modifiez dans</text>
+  <text x="115" y="184" font-size="12" fill="#546e7a" text-anchor="middle">VS Code</text>
+
+  <!-- Index -->
+  <rect x="250" y="80" width="150" height="120" rx="8" fill="#ffffff" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="325" y="108" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">Index</text>
+  <text x="325" y="126" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">(préparation)</text>
+  <text x="325" y="152" font-size="12" fill="#546e7a" text-anchor="middle">ce qui fera partie</text>
+  <text x="325" y="168" font-size="12" fill="#546e7a" text-anchor="middle">du prochain</text>
+  <text x="325" y="184" font-size="12" fill="#546e7a" text-anchor="middle">commit</text>
+
+  <!-- Historique -->
+  <rect x="460" y="80" width="150" height="120" rx="8" fill="#ffffff" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="535" y="108" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">Historique</text>
+  <text x="535" y="126" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">(les commits)</text>
+  <circle cx="490" cy="165" r="7" fill="#1a237e"/>
+  <circle cx="535" cy="165" r="7" fill="#1a237e"/>
+  <circle cx="580" cy="165" r="7" fill="#1a237e"/>
+  <line x1="497" y1="165" x2="528" y2="165" stroke="#1a237e" stroke-width="2"/>
+  <line x1="542" y1="165" x2="573" y2="165" stroke="#1a237e" stroke-width="2"/>
+  <text x="535" y="190" font-size="11.5" fill="#546e7a" text-anchor="middle">une chaîne de photos</text>
+
+  <!-- Fleches locales -->
+  <line x1="195" y1="140" x2="245" y2="140" stroke="#37474f" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="220" y="230" font-size="12.5" font-weight="600" fill="#37474f" text-anchor="middle">① indexer</text>
+  <line x1="220" y1="205" x2="220" y2="145" stroke="#b0bec5" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="405" y1="140" x2="455" y2="140" stroke="#37474f" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="430" y="230" font-size="12.5" font-weight="600" fill="#37474f" text-anchor="middle">② valider</text>
+  <line x1="430" y1="205" x2="430" y2="145" stroke="#b0bec5" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="220" y="248" font-size="11.5" fill="#546e7a" text-anchor="middle">(bouton +)</text>
+  <text x="430" y="248" font-size="11.5" fill="#546e7a" text-anchor="middle">(commit)</text>
+
+  <!-- GitHub -->
+  <rect x="700" y="80" width="180" height="120" rx="12" fill="#f5f7fa" stroke="#90a4ae" stroke-width="1.5"/>
+  <text x="790" y="108" font-size="15" font-weight="600" fill="#263238" text-anchor="middle">GitHub</text>
+  <text x="790" y="126" font-size="14" font-weight="600" fill="#263238" text-anchor="middle">(dépôt distant)</text>
+  <text x="790" y="152" font-size="12" fill="#546e7a" text-anchor="middle">la copie commune</text>
+  <text x="790" y="168" font-size="12" fill="#546e7a" text-anchor="middle">de l'équipe,</text>
+  <text x="790" y="184" font-size="12" fill="#546e7a" text-anchor="middle">sur Internet</text>
+
+  <!-- push / pull -->
+  <line x1="615" y1="118" x2="695" y2="118" stroke="#2e7d32" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <text x="655" y="108" font-size="12.5" font-weight="600" fill="#2e7d32" text-anchor="middle">③ push</text>
+  <line x1="695" y1="162" x2="615" y2="162" stroke="#1a237e" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <text x="655" y="184" font-size="12.5" font-weight="600" fill="#1a237e" text-anchor="middle">pull</text>
+
+  <!-- Conclusion -->
+  <rect x="20" y="300" width="860" height="76" rx="8" fill="#f1f8f1" stroke="#a5d6a7" stroke-width="1.5"/>
+  <text x="42" y="326" font-size="13.5" font-weight="600" fill="#2e7d32">Un commit n'est pas encore partagé.</text>
+  <text x="42" y="346" font-size="12.5" fill="#546e7a">Tant que vous n'avez pas fait le push, votre travail n'existe que sur votre disque. Le pull fait l'inverse :</text>
+  <text x="42" y="364" font-size="12.5" fill="#546e7a">il ramène chez vous les commits que vos coéquipiers ont poussés.</text>
+
+</svg>

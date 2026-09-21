@@ -16,3 +16,4 @@ Chaque sous-dossier est autonome et contient son propre `README.md`.
 | Lab | Sujet |
 |---|---|
 | [`ssh-key`](ssh-key/) | Créer et utiliser sa clé SSH pour le développement à distance : principe de la paire de clés, mise en place sur un poste Windows en domaine, déclaration de la clé sur une carte Raspberry Pi |
+| [`github`](github/) | Git et GitHub pour les projets d'équipe : principe du contrôle de version, création du compte, organisation d'un projet (équipe, dépôt, tableau Kanban), Git dans VS Code |

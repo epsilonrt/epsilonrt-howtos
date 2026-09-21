@@ -40,6 +40,7 @@ chaque étape.
 | Lab | Langue |
 |---|---|
 | [Clés SSH pour le développement à distance](labs/ssh-key/) — créer une paire de clés, la garder utilisable d'un poste partagé à l'autre, la déclarer sur un Raspberry Pi | français |
+| [Git et GitHub pour les projets d'équipe](labs/github/) — principe du contrôle de version, création du compte GitHub, organisation d'un projet (équipe, dépôt, tableau Kanban), utilisation de Git dans VS Code | français |
 
 ### [`how-to/`](how-to/) — procédures ponctuelles
 

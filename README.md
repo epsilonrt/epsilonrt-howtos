@@ -41,6 +41,7 @@ at every step.
 | Lab | Language |
 |---|---|
 | [SSH keys for remote development](labs/ssh-key/) — generating a key pair, keeping it usable across shared workstations, declaring it on a Raspberry Pi | French |
+| [Git and GitHub for team projects](labs/github/) — version control principles, creating a GitHub account, organising a project (team, repository, Kanban board), using Git from VS Code | French |
 
 ### [`how-to/`](how-to/) — short procedures
 
