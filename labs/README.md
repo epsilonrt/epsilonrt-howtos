@@ -17,3 +17,12 @@ Chaque sous-dossier est autonome et contient son propre `README.md`.
 |---|---|
 | [`ssh-key`](ssh-key/) | Créer et utiliser sa clé SSH pour le développement à distance : principe de la paire de clés, mise en place sur un poste Windows en domaine, déclaration de la clé sur une carte Raspberry Pi |
 | [`github`](github/) | Git et GitHub pour les projets d'équipe : principe du contrôle de version, création du compte, organisation d'un projet (équipe, dépôt, tableau Kanban), Git dans VS Code |
+
+## Ressources
+
+Documentation de référence, à consulter au besoin plutôt qu'à lire d'un bout à
+l'autre.
+
+| Ressource | Sujet |
+|---|---|
+| [`ressources/piduino`](ressources/piduino/) | Traduction française de la documentation des commandes `pinfo` et `pido` de piduino (informations sur la carte, manipulation des broches GPIO) |
