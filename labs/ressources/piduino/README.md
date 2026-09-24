@@ -6,13 +6,10 @@ NanoPi, Orange Pi et Banana Pi avec une API aussi proche que possible du langage
 Arduino. Elle installe aussi deux commandes utilisables directement dans le
 terminal.
 
-Ce dossier rassemble la traduction française de leur documentation, tirée du
-[wiki de piduino](https://github.com/epsilonrt/piduino/wiki).
+Ce dossier rassemble la traduction française de leurs **pages de manuel**
+(`man pinfo` et `man pido` sur la carte).
 
 | Commande | Rôle |
 |---|---|
-| [`pinfo`](pinfo.md) | Afficher les informations sur la carte (modèle, SoC, mémoire, bus I²C et ports série disponibles) |
-| [`pido`](pido.md) | Manipuler les broches GPIO : afficher leur état, changer leur mode, écrire ou lire un niveau logique, activer une résistance de tirage, attendre un front |
-
-Les pages de manuel complètes s'obtiennent sur la carte avec `man pinfo` et
-`man pido`.
+| [`pinfo(1)`](pinfo.md) | Afficher les informations sur la carte (modèle, SoC, mémoire, bus I²C et ports série disponibles) |
+| [`pido(1)`](pido.md) | Manipuler les broches GPIO, mais aussi des composants I²C ou SPI (expandeurs, CAN, CNA, capteurs) : afficher leur état, changer leur mode, écrire ou lire, PWM, attendre un front |

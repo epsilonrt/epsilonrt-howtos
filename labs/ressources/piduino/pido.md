@@ -1,204 +1,316 @@
-# pido — manipuler les broches GPIO
+# pido(1) — accès simple aux broches GPIO
 
-*Traduction française de la page [Pido](https://github.com/epsilonrt/piduino/wiki/Pido)
-du wiki de [piduino](https://github.com/epsilonrt/piduino). Les sorties de
-terminal sont conservées telles quelles.*
+*Traduction française de la page de manuel `pido(1)` de
+[piduino](https://github.com/epsilonrt/piduino), d'après le fichier source
+[`utils/pido/pido.1.in`](https://github.com/epsilonrt/piduino/blob/10754af/utils/pido/pido.1.in)
+(commit 10754af, août 2025).*
 
-La commande `pido` permet de modifier le mode et la résistance de tirage d'une
-broche, de lire ou d'écrire des états logiques ou analogiques (PWM), etc.
+## Nom
 
-Sur une Raspberry Pi modèle B, elle permet par exemple d'obtenir :
+**pido** — permet à l'utilisateur d'accéder simplement aux broches GPIO, ou à
+d'autres composants, comme des périphériques I²C ou SPI (CAN, CNA, capteurs
+numériques, expandeurs de GPIO).
 
-```text
-$ pido readall
-                                    P1 (#1)
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | V | Ph || Ph | V | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-|     |     |     3.3V |      |   |  1 || 2  |   |      | 5V       |     |     |
-|   2 |   8 |    GPIO2 |   IN | 1 |  3 || 4  |   |      | 5V       |     |     |
-|   3 |   9 |    GPIO3 |   IN | 1 |  5 || 6  |   |      | GND      |     |     |
-|   4 |   7 |    GPIO4 |   IN | 1 |  7 || 8  | 1 | ALT0 | TXD0     | 15  | 14  |
-|     |     |      GND |      |   |  9 || 10 | 1 | ALT0 | RXD0     | 16  | 15  |
-|  17 |   0 |   GPIO17 |   IN | 0 | 11 || 12 | 0 | IN   | GPIO18   | 1   | 18  |
-|  27 |   2 |   GPIO27 |   IN | 0 | 13 || 14 |   |      | GND      |     |     |
-|  22 |   3 |   GPIO22 |   IN | 0 | 15 || 16 | 0 | IN   | GPIO23   | 4   | 23  |
-|     |     |     3.3V |      |   | 17 || 18 | 0 | IN   | GPIO24   | 5   | 24  |
-|  10 |  12 |   GPIO10 |   IN | 0 | 19 || 20 |   |      | GND      |     |     |
-|   9 |  13 |    GPIO9 |   IN | 0 | 21 || 22 | 0 | IN   | GPIO25   | 6   | 25  |
-|  11 |  14 |   GPIO11 |   IN | 0 | 23 || 24 | 1 | IN   | GPIO8    | 10  | 8   |
-|     |     |      GND |      |   | 25 || 26 | 1 | IN   | GPIO7    | 11  | 7   |
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | V | Ph || Ph | V | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-
-                                    P5 (#2)
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | V | Ph || Ph | V | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-|     |     |       5V |      |   |  1 || 2  |   |      | 3.3V     |     |     |
-|  28 |  17 |   GPIO28 |   IN | 0 |  3 || 4  | 0 | IN   | GPIO29   | 18  | 29  |
-|  30 |  19 |   GPIO30 |   IN | 0 |  5 || 6  | 0 | IN   | GPIO31   | 20  | 31  |
-|     |     |      GND |      |   |  7 || 8  |   |      | GND      |     |     |
-+-----+-----+----------+------+---+----++----+---+------+----------+-----+-----+
-```
-
-Sur une NanoPi Neo Plus 2, on peut afficher par exemple :
+## Synopsis
 
 ```text
-$ pido readall
-                                          CON1 (#1)
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph || Ph | V | Pull | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-|     |     |     3.3V |      |      |   |  1 || 2  |   |      |      | 5V       |     |     |
-|  12 |   8 |  I2C0SDA | ALT2 |  OFF |   |  3 || 4  |   |      |      | 5V       |     |     |
-|  11 |   9 |  I2C0SCK | ALT2 |  OFF |   |  5 || 6  |   |      |      | GND      |     |     |
-|  91 |   7 |  GPIOG11 |  OFF |  OFF |   |  7 || 8  |   | OFF  | ALT2 | UART1TX  | 15  | 86  |
-|     |     |      GND |      |      |   |  9 || 10 |   | OFF  | ALT2 | UART1RX  | 16  | 87  |
-|   0 |   0 |   GPIOA0 |  OFF |  OFF |   | 11 || 12 |   | OFF  | OFF  | GPIOA6   | 1   | 6   |
-|   2 |   2 |   GPIOA2 |  OFF |  OFF |   | 13 || 14 |   |      |      | GND      |     |     |
-|   3 |   3 |   GPIOA3 |  OFF |  OFF |   | 15 || 16 |   | OFF  | OFF  | GPIOG8   | 4   | 88  |
-|     |     |     3.3V |      |      |   | 17 || 18 |   | OFF  | OFF  | GPIOG9   | 5   | 89  |
-|  22 |  12 |   GPIOC0 |  OFF |  OFF |   | 19 || 20 |   |      |      | GND      |     |     |
-|  23 |  13 |   GPIOC1 |  OFF |  OFF |   | 21 || 22 |   | OFF  | OFF  | GPIOA1   | 6   | 1   |
-|  24 |  14 |   GPIOC2 |  OFF |  OFF |   | 23 || 24 |   | UP   | OFF  | GPIOC3   | 10  | 25  |
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph || Ph | V | Pull | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-
-                 DBG_UART (#2)
-+-----+-----+----------+------+------+---+----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph |
-+-----+-----+----------+------+------+---+----+
-|     |     |      GND |      |      |   |  1 |
-|     |     |       5V |      |      |   |  2 |
-|   4 |  17 |  UART0TX | ALT2 |  OFF |   |  3 |
-|   5 |  18 |  UART0RX | ALT2 |   UP |   |  4 |
-+-----+-----+----------+------+------+---+----+
-
-                   INNER (#3)
-+-----+-----+----------+------+------+---+----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph |
-+-----+-----+----------+------+------+---+----+
-|  10 |  19 |  GPIOA10 |  OFF |  OFF |   |  1 |
-| 104 |  32 |  PWR_LED |  OUT |  OFF | 1 |  2 |
-+-----+-----+----------+------+------+---+----+
-
-                   CON2 (#4)
-+-----+-----+----------+------+------+---+----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph |
-+-----+-----+----------+------+------+---+----+
-|     |     |       5V |      |      |   |  1 |
-|     |     |  USB-DP1 |      |      |   |  2 |
-|     |     |  USB-DM1 |      |      |   |  3 |
-|     |     |  USB-DP2 |      |      |   |  4 |
-|     |     |  USB-DM2 |      |      |   |  5 |
-| 105 |  20 |  GPIOL11 |  OFF |  OFF |   |  6 |
-|  17 |  11 |  GPIOA17 |  OFF |  OFF |   |  7 |
-|  18 |  31 |  GPIOA18 |  OFF |  OFF |   |  8 |
-|  19 |  30 |  GPIOA19 |  OFF |  OFF |   |  9 |
-|  20 |  21 |  GPIOA20 |  OUT |  OFF | 0 | 10 |
-|  21 |  22 |  GPIOA21 |  OFF |  OFF |   | 11 |
-|     |     |      GND |      |      |   | 12 |
-+-----+-----+----------+------+------+---+----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph |
-+-----+-----+----------+------+------+---+----+
+pido [-g1sfDxmad] { mode pin [value] |
+                    pull pin [value] |
+                    drive pin [value] |
+                    write pin value |
+                    toggle pin |
+                    blink pin [value] |
+                    read pin |
+                    readall [connector] |
+                    wfi pin edge [timeout_ms] |
+                    pwm pin [value] |
+                    pwmf pin [hz_freq] |
+                    pwmr pin [range] |
+                    pwrite pin value [range] [frequency] |
+                    converters |
+                    cwrite -c converter[:parameters] [chan] value |
+                    cread -c converter[:parameters] [chan] |
+                    -v | -w | -h }
 ```
 
-Comme on peut le voir ci-dessus, la NanoPi Neo Plus 2 possède 4 « connecteurs ».
-Le connecteur `INNER` correspond à des signaux internes à la carte, qui peuvent
-être utiles à manipuler (ici, on y trouve le signal de la LED ON et celui de la
-LED STATUS (GPIOA10)).
+## Description
 
-Notez aussi que, dans le cas de la NanoPi, la commande `readall` affiche une
-colonne `Pull` qui indique l'état de la résistance de tirage (cette
-fonctionnalité n'est pas disponible sur une Raspberry Pi, car le BCM2835 ne sait
-pas le faire).
+**pido** est un outil en ligne de commande qui donne un accès simple aux
+broches GPIO d'une carte Pi. Il est conçu pour des tests et des diagnostics
+simples, mais il peut être utilisé dans des scripts shell pour un contrôle des
+broches GPIO général, quoique un peu lent.
 
-On peut indiquer à la commande `readall` le numéro du connecteur à afficher (ce
-numéro figure au-dessus de son tableau, après le `#`), par exemple :
+**pido** s'appuie sur la bibliothèque piduino
+<https://github.com/epsilonrt/piduino>. La détection du modèle de carte est
+automatique et utilise une base de données : l'utilisateur peut ainsi ajouter
+une nouvelle « variante » de carte Pi **sans** programmer.
+
+### Commandes
+
+**mode** *pin* [**in** | **out** | **off** | **pwm** | **alt{0..9}**]
+: Sans valeur, donne le mode actuel de la broche.
+
+  Place la broche en mode *entrée* (*in*), *sortie* (*out*), *pwm*,
+  *alt{0..9}* ou *off*. La désactivation d'une broche avec *off* n'est
+  disponible que sur certains modèles de SoC (voir la fiche technique).
+
+  Les modes ALT peuvent aussi être désignés par *alt0*, *alt1*, … *alt9*. Le
+  nombre de modes alternatifs disponibles dépend du modèle de SoC (voir la
+  fiche technique).
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311). Dans ce cas :
+
+  - tous les modes ne sont généralement pas disponibles (seulement entrée et
+    sortie) ;
+  - on peut omettre le numéro de broche pour modifier toutes les broches à la
+    fois.
+
+**pull** *pin* [**up** | **down** | **off**]
+: Sans valeur, donne l'état actuel de la résistance de tirage. Cette
+  fonctionnalité n'est disponible que sur certains modèles de SoC (voir la fiche
+  technique).
+
+  Utilisez *up*, *down* ou *off* pour activer la résistance de tirage interne
+  vers le haut (pull-up), vers le bas (pull-down), ou la désactiver (état
+  haute impédance).
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311) ; dans ce cas, on peut omettre le numéro de broche
+  pour modifier toutes les broches à la fois.
+
+**drive** *pin* [**level**]
+: Sans valeur, donne le niveau actuel du courant de sortie (drive strength) de
+  la broche.
+
+  Utilisez *level* pour régler ce niveau.
+
+  Cette fonctionnalité n'est disponible que sur certains modèles de SoC (voir la
+  fiche technique).
+
+**write** *pin* **value**
+: Écrit la valeur donnée sur la broche. Il faut d'abord mettre la broche en mode
+  sortie.
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311) ; dans ce cas, on peut omettre le numéro de broche
+  pour modifier toutes les broches à la fois.
+
+**toggle** *pin*
+: Change l'état d'une broche GPIO : de 0 à 1, ou de 1 à 0. Il faut d'abord
+  mettre la broche en mode sortie.
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311) ; dans ce cas, on peut omettre le numéro de broche
+  pour modifier toutes les broches à la fois.
+
+**blink** *pin*
+: Fait clignoter la broche donnée. Appuyez sur Ctrl-C pour quitter. La période
+  de clignotement, en millisecondes, se règle avec l'option **-p** ; sa valeur
+  par défaut est 1000 (elle ne peut pas être inférieure à 2 ms).
+
+  Remarque : cette commande place explicitement la broche en mode sortie.
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311) ; dans ce cas, on peut omettre le numéro de broche
+  pour modifier toutes les broches à la fois.
+
+**read** *pin*
+: Lit la valeur numérique de la broche donnée et affiche 0 ou 1 pour représenter
+  le niveau logique correspondant.
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311) ; dans ce cas, on peut omettre le numéro de broche
+  pour lire toutes les broches à la fois (au format hexadécimal).
+
+**readall** [*connector*]
+: Affiche un tableau de la valeur de toutes les broches GPIO. Ces valeurs sont
+  les valeurs réellement lues si la broche est en mode entrée, ou la dernière
+  valeur écrite si elle est en mode sortie. Tous les connecteurs sont affichés
+  par défaut ; pour n'en afficher qu'un seul, indiquez simplement son numéro
+  (inscrit au-dessus du tableau).
+
+  Avec l'option **-c**, on peut désigner un expandeur de GPIO (par exemple un
+  MCP23017 ou un MAX7311) ; dans ce cas, le numéro de connecteur est ignoré et
+  toutes les broches de l'expandeur sont lues (au format hexadécimal).
+
+**wfi** *pin* **rising** | **falling** | **both** [*timeout_ms*]
+: Place la broche donnée dans le mode d'interruption indiqué (front montant
+  *rising*, front descendant *falling*, ou les deux *both*), puis attend que
+  l'interruption se produise. L'attente n'est pas active : elle ne consomme
+  aucun temps processeur.
+
+**pwm** *pin* [*value*]
+: Écrit une valeur de PWM (de 0 à la plage, *Range*) sur la broche donnée. Si la
+  fréquence n'a pas été réglée avec la commande **pwmf**, elle est fixée à
+  environ 1000 Hz et la plage à 1024 lors du premier appel (valeurs par
+  défaut).
+
+  Sans valeur, lit la valeur de PWM actuelle.
+
+  Remarque : la broche doit disposer d'une fonction PWM matérielle (voir la
+  fiche technique) et doit d'abord être mise en mode PWM.
+
+**pwmf** *pin* [*hz_freq*]
+: Modifie la fréquence de PWM de la broche donnée. Ce changement peut affecter
+  la fréquence des autres broches PWM (voir la fiche technique).
+
+  Sans valeur, lit la fréquence de PWM actuelle.
+
+  Remarque : la broche doit disposer d'une fonction PWM matérielle (voir la
+  fiche technique) et doit d'abord être mise en mode PWM.
+
+**pwmr** *pin* [*range*]
+: Modifie la plage de PWM de la broche donnée. Ce changement devrait affecter la
+  fréquence et le rapport cyclique du signal PWM ; il sera donc probablement
+  nécessaire de modifier aussi ces valeurs pour obtenir l'effet voulu (voir la
+  fiche technique).
+
+  Sans valeur, lit la plage de PWM actuelle.
+
+  Remarque : la broche doit disposer d'une fonction PWM matérielle (voir la
+  fiche technique) et doit d'abord être mise en mode PWM.
+
+**pwrite** *pin* **value** [*range*] [*frequency*]
+: Écrit la valeur donnée sur la broche à l'aide d'un PWM logiciel. La valeur
+  doit être comprise entre 0 et la plage (1024 par défaut). La fréquence est
+  facultative et vaut 200 Hz par défaut. Cette commande est utile pour les
+  broches qui n'ont pas de PWM matériel. Elle bloque jusqu'à ce que
+  l'utilisateur l'interrompe avec Ctrl-C.
+
+**converters**
+: Liste tous les convertisseurs (CAN ou CNA) disponibles, utilisables avec les
+  commandes **cwrite** et **cread**.
+
+**cwrite** **-c** *converter[:parameters]* [*chan*] *value*
+: Écrit la valeur donnée sur le convertisseur indiqué (CNA). Le convertisseur
+  doit être désigné avec l'option **-c** ; on peut y joindre des paramètres tels
+  que le numéro de bus, la tension de référence, la pleine échelle, etc. Si le
+  convertisseur demande un canal précis, celui-ci doit aussi être fourni.
+
+**cread** **-c** *converter[:parameters]* [*chan*]
+: Lit une valeur sur le convertisseur indiqué (CAN ou capteur). Si *chan* n'est
+  pas précisé, le canal par défaut est utilisé. Le convertisseur doit être
+  désigné avec l'option **-c** ; on peut y joindre des paramètres tels que le
+  numéro de bus, la tension de référence, la pleine échelle, etc.
+
+  Les options **-m**, **-a** et **-d** permettent de modifier le comportement
+  de la lecture.
+
+## Options
+
+**-g**
+: Utilise les numéros de broches du SoC plutôt que ceux de PiDuino.
+
+**-1**
+: Utilise les numéros de broches des connecteurs plutôt que ceux de PiDuino. Un
+  numéro s'écrit sous la forme C.N ; par exemple, 1.5 désigne la broche 5 du
+  connecteur 1.
+
+**-s**
+: Utilise les numéros de broches du système plutôt que ceux de PiDuino.
+
+**-D**
+: Active le mode débogage.
+
+**-f**
+: Force l'utilisation de l'interface de périphérique Gpio2 (`/dev/gpiochipX`)
+  pour contrôler les fonctions des broches.
+
+**-p** *\<period_ms\>*
+: Règle la période de clignotement en millisecondes (1000 ms par défaut, jamais
+  inférieure à 2 ms).
+
+**-x**
+: Affiche les valeurs au format hexadécimal.
+
+**-c** *converter[:parameters]*
+: Indique le convertisseur à utiliser et ses options (par exemple
+  `-c max1161x:bipolar=1`).
+
+**-m**
+: Affiche les valeurs du CAN ou du capteur numérique sous forme analogique
+  (tension, température, etc.).
+
+**-a**
+: Calcule une moyenne sur plusieurs échantillons (leur nombre dépend du
+  convertisseur utilisé).
+
+**-d**
+: Lit les valeurs du CAN en mode différentiel.
+
+**-v**
+: Affiche la version de PiDuino.
+
+**-w**
+: Affiche l'avis de garantie.
+
+**-h**
+: Affiche un bref résumé d'utilisation.
+
+## Environnement
+
+`PIDUINO_CONN_INFO`
+: Si cette variable est définie, elle permet à l'utilisateur d'indiquer
+  l'emplacement de la base de données PiDuino utilisée par pido. SQLite3, MySQL,
+  PostgreSQL et ODBC sont pris en charge d'emblée. La syntaxe est décrite sur
+  <http://cppcms.com/sql/cppdb/connstr.html>.
+
+## Fichiers
+
+`/etc/piduino.conf`
+: Fichier de configuration de PiDuino, pour indiquer le modèle de carte à
+  utiliser ou l'emplacement de la base de données PiDuino.
+
+`<répertoire des données>/piduino.db`
+: Fichier de base de données SQLite 3 local de PiDuino, utilisé par défaut. Le
+  répertoire dépend de l'installation.
+
+## Exemples
+
+Les commandes ci-dessous sont suivies de leur effet.
+
+La numérotation physique de la forme C.N, par exemple *1.11*, permet de
+désigner rapidement la broche N (ici 11) du connecteur C (ici 1).
+
+Le moyen le plus rapide d'obtenir la liste des différences entre les
+numérotations de broches est de lancer la commande `pido readall`.
 
 ```text
-$ pido readall 1
-                                          CON1 (#1)
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph || Ph | V | Pull | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-|     |     |     3.3V |      |      |   |  1 || 2  |   |      |      | 5V       |     |     |
-|  12 |   8 |  I2C0SDA | ALT2 |  OFF |   |  3 || 4  |   |      |      | 5V       |     |     |
-|  11 |   9 |  I2C0SCK | ALT2 |  OFF |   |  5 || 6  |   |      |      | GND      |     |     |
-|  91 |   7 |  GPIOG11 |  OFF |  OFF |   |  7 || 8  |   | OFF  | ALT2 | UART1TX  | 15  | 86  |
-|     |     |      GND |      |      |   |  9 || 10 |   | OFF  | ALT2 | UART1RX  | 16  | 87  |
-|   0 |   0 |   GPIOA0 |  OFF |  OFF |   | 11 || 12 |   | OFF  | OFF  | GPIOA6   | 1   | 6   |
-|   2 |   2 |   GPIOA2 |  OFF |  OFF |   | 13 || 14 |   |      |      | GND      |     |     |
-|   3 |   3 |   GPIOA3 |  OFF |  OFF |   | 15 || 16 |   | OFF  | OFF  | GPIOG8   | 4   | 88  |
-|     |     |     3.3V |      |      |   | 17 || 18 |   | OFF  | OFF  | GPIOG9   | 5   | 89  |
-|  22 |  12 |   GPIOC0 |  OFF |  OFF |   | 19 || 20 |   |      |      | GND      |     |     |
-|  23 |  13 |   GPIOC1 |  OFF |  OFF |   | 21 || 22 |   | OFF  | OFF  | GPIOA1   | 6   | 1   |
-|  24 |  14 |   GPIOC2 |  OFF |  OFF |   | 23 || 24 |   | UP   | OFF  | GPIOC3   | 10  | 25  |
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
-| sOc | iNo |   Name   | Mode | Pull | V | Ph || Ph | V | Pull | Mode |   Name   | iNo | sOc |
-+-----+-----+----------+------+------+---+----++----+---+------+------+----------+-----+-----+
+pido mode 0 out            # Met la broche 0 en sortie
+pido mode 1.11 out         # Met la broche 11 du connecteur 1 en sortie (identique à la broche 0 sur NanoPi et Raspberry Pi)
+pido write 0 1             # Met la broche 0 à l'état haut
+pido toggle 0              # Inverse l'état de la broche 0
+pido blink 0 100           # Fait clignoter la broche 0 avec une période de 100 ms
+pido mode 0 in             # Met la broche 0 en entrée
+pido pull 0 up             # Active la résistance de pull-up de la broche 0
+pido read 0                # Lit la broche 0
+pido wfi 0 falling         # Attend une interruption sur un front descendant de la broche 0
+pido converters            # Liste tous les convertisseurs disponibles
+pido -c gpiopwm:18:1024:500 cwrite 0 512
+                           # PWM logiciel sur la broche 18, rapport cyclique de 50 %
+pido -c max1161x:bus=1:max=15:ref=int4 cread 0
+                           # Lit le canal 0 du CAN (MAX11615 sur le bus 1, tension de référence interne de 2,048 V)
+pido -c max1161x:bus=1:max=15:bipolar=1 -md cread 0
+                           # Lit le CAN en différentiel entre les canaux 0 et 1, en valeur analogique (MAX11615 sur le bus 1, mode bipolaire)
 ```
 
-Pour mettre la broche numéro 0 en sortie :
+## Voir aussi
 
-```text
-$ pido mode 0 out
-```
+[pinfo(1)](pinfo.md)
 
-Par défaut, c'est la numérotation de la colonne `iNo` qui est utilisée, mais on
-peut aussi désigner le signal `0` par `1.11` :
+Page du wiki de PiDuino : <https://github.com/epsilonrt/piduino/wiki/PiDuino>
 
-```text
-$ pido mode 1.11 out
-```
+## Signaler des bogues
 
-Cette notation `C.N` permet de désigner rapidement la broche `N` (ici 11) du
-connecteur `C` (ici 1).
+Merci de signaler les bogues sur <https://github.com/epsilonrt/piduino/issues>.
 
-Pour mettre cette sortie à l'état haut :
+## Auteur
 
-```text
-$ pido write 0 1
-```
+Pascal JEAN, alias epsilonrt
 
-Pour la mettre à l'état bas :
+## Copyright
 
-```text
-$ pido write 0 0
-```
-
-On peut aussi inverser son état :
-
-```text
-$ pido toggle 0
-```
-
-Ou générer un signal carré sur la broche :
-
-```text
-$ pido blink 0 100
-```
-
-Pour la mettre en entrée avec une résistance de tirage vers le haut (pull-up) :
-
-```text
-$ pido mode 0 in
-$ pido pull 0 up
-```
-
-Et pour la lire :
-
-```text
-$ pido read 0
-```
-
-On peut aussi attendre un front descendant sur cette entrée :
-
-```text
-$ pido wfi 0 falling
-```
-
-Voir aussi la page de manuel `pido(1)`.
+Copyright (c) 2018-2025 Pascal JEAN. Ce logiciel est libre ; voir les sources
+pour les conditions de copie. Il n'y a AUCUNE garantie, pas même de
+COMMERCIALISATION ou d'ADÉQUATION À UN USAGE PARTICULIER.

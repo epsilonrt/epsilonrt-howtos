@@ -25,4 +25,4 @@ l'autre.
 
 | Ressource | Sujet |
 |---|---|
-| [`ressources/piduino`](ressources/piduino/) | Traduction française de la documentation des commandes `pinfo` et `pido` de piduino (informations sur la carte, manipulation des broches GPIO) |
+| [`ressources/piduino`](ressources/piduino/) | Traduction française des pages de manuel `pinfo(1)` et `pido(1)` de piduino (informations sur la carte, manipulation des broches GPIO et des composants I²C/SPI) |
