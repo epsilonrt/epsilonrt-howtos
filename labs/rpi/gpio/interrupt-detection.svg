@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" width="1000" height="450" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Circuit de détection de front : un bouton avec résistance de tirage est relié à la broche GPIO ; le signal traverse un trigger de Schmitt, deux bascules D qui mémorisent l'état actuel et l'état précédent, des détecteurs de front montant et descendant, une sélection du front choisi, puis un drapeau d'interruption mémorisé qui active une demande d'interruption vers le contrôleur d'interruptions et le processeur">
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#37474f"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c62828"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="450" fill="#ffffff"/>
+
+  <!-- ===== Circuit extérieur : bouton + résistance de tirage ===== -->
+  <text x="30" y="34" font-size="15" font-weight="600" fill="#1a237e">Circuit extérieur</text>
+  <text x="90" y="60" font-size="13" font-weight="600" fill="#263238" text-anchor="middle">3,3 V</text>
+  <g stroke="#263238" stroke-width="1.8" fill="none">
+    <line x1="90" y1="68" x2="90" y2="85"/>
+    <rect x="80" y="85" width="20" height="50" fill="#ffffff"/>
+    <line x1="90" y1="135" x2="90" y2="150"/>
+    <line x1="90" y1="150" x2="140" y2="150"/>
+    <line x1="90" y1="150" x2="90" y2="205"/>
+    <line x1="90" y1="205" x2="112" y2="235"/>
+    <line x1="90" y1="245" x2="90" y2="285"/>
+    <line x1="75" y1="285" x2="105" y2="285"/>
+    <line x1="81" y1="291" x2="99" y2="291"/>
+    <line x1="86" y1="297" x2="94" y2="297"/>
+  </g>
+  <circle cx="90" cy="150" r="3.5" fill="#263238"/>
+  <circle cx="90" cy="205" r="3" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <circle cx="90" cy="245" r="3" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <circle cx="140" cy="150" r="4.5" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <text x="112" y="115" font-size="13" font-weight="600" fill="#263238">R</text>
+  <text x="112" y="130" font-size="11" fill="#546e7a">tirage</text>
+  <text x="120" y="230" font-size="12" fill="#263238">bouton</text>
+  <text x="140" y="170" font-size="11" fill="#546e7a" text-anchor="middle">broche</text>
+  <text x="140" y="183" font-size="11" fill="#546e7a" text-anchor="middle">GPIO</text>
+  <text x="30" y="325" font-size="11" fill="#546e7a">Relâché : niveau haut.</text>
+  <text x="30" y="340" font-size="11" fill="#546e7a">Appuyé : niveau bas.</text>
+
+  <!-- ===== Dans le SoC ===== -->
+  <rect x="165" y="42" width="810" height="288" rx="12" fill="#f5f7fa" stroke="#90a4ae" stroke-width="1.5" stroke-dasharray="7 4"/>
+  <text x="180" y="60" font-size="15" font-weight="600" fill="#1a237e">Dans le processeur (contrôleur GPIO)</text>
+
+  <!-- trigger de Schmitt -->
+  <line x1="144" y1="150" x2="185" y2="150" stroke="#263238" stroke-width="1.8"/>
+  <path d="M 185 132 L 185 168 L 225 150 Z" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <path d="M 192 156 L 196 156 L 196 144 L 202 144" fill="none" stroke="#263238" stroke-width="1.2"/>
+  <line x1="225" y1="150" x2="255" y2="150" stroke="#263238" stroke-width="1.8"/>
+  <text x="205" y="188" font-size="11" fill="#546e7a" text-anchor="middle">trigger de</text>
+  <text x="205" y="201" font-size="11" fill="#546e7a" text-anchor="middle">Schmitt</text>
+
+  <!-- bascule A -->
+  <rect x="255" y="120" width="60" height="60" rx="4" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <text x="262" y="154" font-size="13" font-weight="600" fill="#263238">D</text>
+  <text x="308" y="154" font-size="13" font-weight="600" fill="#263238" text-anchor="end">Q</text>
+  <path d="M 277 180 L 285 168 L 293 180" fill="none" stroke="#263238" stroke-width="1.5"/>
+  <text x="285" y="112" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">Bascule A</text>
+
+  <!-- bascule B -->
+  <rect x="345" y="120" width="60" height="60" rx="4" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <text x="352" y="154" font-size="13" font-weight="600" fill="#263238">D</text>
+  <text x="398" y="154" font-size="13" font-weight="600" fill="#263238" text-anchor="end">Q</text>
+  <path d="M 367 180 L 375 168 L 383 180" fill="none" stroke="#263238" stroke-width="1.5"/>
+  <text x="375" y="112" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">Bascule B</text>
+
+  <g stroke="#263238" stroke-width="1.8" fill="none">
+    <line x1="315" y1="150" x2="345" y2="150"/>
+    <line x1="405" y1="150" x2="425" y2="150"/>
+    <!-- horloge -->
+    <line x1="285" y1="180" x2="285" y2="300"/>
+    <line x1="375" y1="180" x2="375" y2="300"/>
+    <line x1="285" y1="300" x2="375" y2="300"/>
+    <!-- Q1 vers détecteurs -->
+    <line x1="330" y1="150" x2="330" y2="80"/>
+    <line x1="330" y1="80" x2="450" y2="80"/>
+    <line x1="330" y1="150" x2="330" y2="232"/>
+    <line x1="330" y1="232" x2="450" y2="232"/>
+    <!-- Q2 vers détecteurs -->
+    <line x1="425" y1="150" x2="425" y2="100"/>
+    <line x1="425" y1="100" x2="450" y2="100"/>
+    <line x1="425" y1="150" x2="425" y2="252"/>
+    <line x1="425" y1="252" x2="450" y2="252"/>
+  </g>
+  <circle cx="330" cy="150" r="3.2" fill="#263238"/>
+  <circle cx="425" cy="150" r="3.2" fill="#263238"/>
+  <text x="400" y="75" font-size="12" font-weight="600" fill="#1a237e">Q1</text>
+  <text x="432" y="122" font-size="12" font-weight="600" fill="#c62828">Q2</text>
+  <text x="330" y="318" font-size="11" fill="#546e7a" text-anchor="middle">horloge d'échantillonnage</text>
+
+  <!-- détecteur front montant -->
+  <rect x="450" y="65" width="150" height="52" rx="6" fill="#ffffff" stroke="#2e7d32" stroke-width="1.8"/>
+  <text x="525" y="86" font-size="13" font-weight="600" fill="#2e7d32" text-anchor="middle">Front montant</text>
+  <text x="525" y="105" font-size="12" fill="#263238" text-anchor="middle">Q1 = 1 et Q2 = 0</text>
+
+  <!-- détecteur front descendant -->
+  <rect x="450" y="215" width="150" height="52" rx="6" fill="#ffffff" stroke="#c62828" stroke-width="1.8"/>
+  <text x="525" y="236" font-size="13" font-weight="600" fill="#c62828" text-anchor="middle">Front descendant</text>
+  <text x="525" y="255" font-size="12" fill="#263238" text-anchor="middle">Q1 = 0 et Q2 = 1</text>
+
+  <!-- portes ET d'autorisation -->
+  <line x1="600" y1="91" x2="625" y2="91" stroke="#263238" stroke-width="1.8"/>
+  <rect x="625" y="76" width="30" height="30" rx="3" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <text x="640" y="96" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">ET</text>
+  <line x1="600" y1="241" x2="625" y2="241" stroke="#263238" stroke-width="1.8"/>
+  <rect x="625" y="226" width="30" height="30" rx="3" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <text x="640" y="246" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">ET</text>
+
+  <!-- choix du front -->
+  <rect x="595" y="150" width="150" height="52" rx="6" fill="#ffffff" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="670" y="171" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">Front choisi</text>
+  <text x="670" y="188" font-size="10.5" fill="#546e7a" text-anchor="middle">RISING / FALLING / CHANGE</text>
+  <line x1="640" y1="150" x2="640" y2="106" stroke="#263238" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="640" y1="202" x2="640" y2="224" stroke="#263238" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- porte OU -->
+  <g stroke="#263238" stroke-width="1.8" fill="none">
+    <line x1="655" y1="91" x2="770" y2="91"/>
+    <line x1="655" y1="241" x2="770" y2="241"/>
+    <line x1="770" y1="91" x2="770" y2="241"/>
+    <line x1="770" y1="166" x2="790" y2="166"/>
+  </g>
+  <circle cx="770" cy="166" r="3.2" fill="#263238"/>
+  <rect x="790" y="141" width="44" height="50" rx="4" fill="#ffffff" stroke="#263238" stroke-width="1.8"/>
+  <text x="812" y="171" font-size="13" font-weight="600" fill="#263238" text-anchor="middle">OU</text>
+
+  <!-- drapeau d'interruption -->
+  <line x1="834" y1="166" x2="850" y2="166" stroke="#263238" stroke-width="1.8"/>
+  <rect x="850" y="136" width="110" height="60" rx="6" fill="#ffffff" stroke="#c62828" stroke-width="2"/>
+  <text x="905" y="160" font-size="12" font-weight="600" fill="#c62828" text-anchor="middle">Drapeau</text>
+  <text x="905" y="176" font-size="12" font-weight="600" fill="#c62828" text-anchor="middle">d'interruption</text>
+  <text x="925" y="214" font-size="10.5" fill="#546e7a" text-anchor="end">mémorisé jusqu'à sa</text>
+  <text x="925" y="227" font-size="10.5" fill="#546e7a" text-anchor="end">remise à zéro par le logiciel</text>
+
+  <!-- vers le processeur -->
+  <line x1="905" y1="196" x2="905" y2="215" stroke="#c62828" stroke-width="0"/>
+  <path d="M 935 196 L 935 395 L 866 395" fill="none" stroke="#c62828" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="945" y="300" font-size="12" font-weight="600" fill="#c62828">IRQ</text>
+
+  <rect x="700" y="372" width="166" height="46" rx="6" fill="#ffffff" stroke="#546e7a" stroke-width="1.8"/>
+  <text x="783" y="392" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">Contrôleur</text>
+  <text x="783" y="407" font-size="12" font-weight="600" fill="#263238" text-anchor="middle">d'interruptions</text>
+  <line x1="700" y1="395" x2="662" y2="395" stroke="#37474f" stroke-width="1.8" marker-end="url(#arr)"/>
+  <rect x="490" y="372" width="170" height="46" rx="6" fill="#ffffff" stroke="#1a237e" stroke-width="1.8"/>
+  <text x="575" y="392" font-size="12" font-weight="600" fill="#1a237e" text-anchor="middle">Processeur</text>
+  <text x="575" y="407" font-size="11" fill="#263238" text-anchor="middle">exécute la routine</text>
+
+  <text x="180" y="392" font-size="11.5" fill="#546e7a">Q1 = état actuel de la broche</text>
+  <text x="180" y="408" font-size="11.5" fill="#546e7a">Q2 = état à l'échantillon précédent</text>
+</svg>
