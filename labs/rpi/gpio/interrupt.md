@@ -122,12 +122,8 @@ carte et de l'ordonnancement de Linux.
   la routine et lue par `loop ()` peut être modifiée en plein milieu d'une
   lecture. Avec piduino, les deux s'exécutent dans des fils d'exécution
   différents : utilisez des types prévus pour cela (`std::atomic`).
-- **Les rebonds d'un bouton produisent plusieurs interruptions.** Un contact
-  mécanique ne passe pas proprement d'un état à l'autre : il rebondit pendant
-  quelques millisecondes, ce qui génère plusieurs fronts pour un seul appui.
-  On les élimine avec un filtre RC suivi d'un trigger de Schmitt, ou par
-  logiciel en ignorant les fronts trop rapprochés (par exemple en comparant
-  `millis ()` à l'instant du front précédent).
+- **Les rebonds d'un bouton produisent plusieurs interruptions.** Un seul
+  appui peut appeler la routine plusieurs fois : voir le paragraphe 5.
 
 ### Comparaison
 
@@ -260,7 +256,84 @@ obtenez un affichage à chaque appui et à chaque relâchement, avec les rebonds
 du contact en prime : plusieurs lignes très rapprochées (1 ou 2 ms d'écart) pour
 un seul appui.
 
-## 5. À retenir
+## 5. Les rebonds d'un bouton
+
+### Le problème
+
+Un contact mécanique ne passe pas proprement d'un état à l'autre. Quand on
+appuie sur un bouton, les deux lames métalliques se touchent, rebondissent, se
+touchent de nouveau, et cela pendant quelques millisecondes avant que le
+contact soit stable. La broche voit donc une série de fronts très rapprochés,
+alors que l'utilisateur n'a appuyé qu'**une seule fois**.
+
+Une interruption sur front est justement faite pour ne rien rater : elle
+détecte tous ces fronts parasites, et la routine est appelée plusieurs fois
+pour un seul appui. Le compteur d'appuis est faux, la LED clignote, l'action
+est exécutée plusieurs fois. Avec l'exemple du paragraphe 4, on voit ces
+rebonds à la console : des lignes très rapprochées (1 ou 2 ms d'écart) pour un
+seul appui.
+
+### Les solutions
+
+- **Matériel** : un filtre RC (résistance et condensateur) dont la constante de
+  temps dépasse la durée des rebonds, suivi d'un trigger de Schmitt. Le
+  condensateur lisse les rebonds, le trigger remet le signal en forme. Cela
+  demande des composants supplémentaires.
+- **Logiciel, dans la routine** : ignorer un front qui arrive trop peu de temps
+  après le précédent, en comparant `millis ()` à l'instant du front précédent.
+  La routine est quand même appelée à chaque rebond ; elle ne fait simplement
+  rien.
+- **Filtrage par le noyau Linux, avec piduino** : le noyau sait filtrer les
+  rebonds lui-même, avant que la routine ne soit appelée. C'est la solution la
+  plus simple.
+
+### Le filtrage des rebonds de piduino
+
+On indique une durée de filtrage, en **millisecondes**, en plus du front à
+détecter. Un changement d'état n'est signalé que s'il est resté stable pendant
+cette durée : les rebonds plus courts sont ignorés et la routine n'est appelée
+qu'**une fois** par appui.
+
+![Chronogramme des rebonds d'un bouton : à l'appui et au relâchement, la broche oscille plusieurs fois avant de se stabiliser ; sans filtrage, la routine est appelée à chaque front, soit douze fois ; avec un filtrage de durée D, le noyau attend que le signal reste stable pendant D et la routine n'est appelée qu'une fois pour l'appui et une fois pour le relâchement, avec un retard D.](interrupt-rebond.svg)
+
+La fonction `attachInterrupt ()` de la classe `Pin` accepte cette durée en
+paramètre. Voici l'exemple
+[`examples/NoArduino/Gpio/Interrupt/main.cpp`](https://github.com/epsilonrt/piduino/blob/master/examples/NoArduino/Gpio/Interrupt/main.cpp),
+qui utilise directement la classe `Pin` plutôt que les fonctions Arduino,
+modifié pour un bouton : on ne détecte que l'appui (front descendant, puisque
+la broche est tirée vers le haut) et on filtre pendant 20 ms.
+
+```cpp
+Pin &irq = gpio.pin (irqPin);
+
+// ...
+
+irq.setPull (Pin::PullUp);    // pull-up resistor: released = high, pressed = low
+irq.setMode (Pin::ModeInput);
+irq.attachInterrupt (isr, Pin::EdgeFalling, 20); // falling edge only, 20 ms debounce
+```
+
+Le troisième paramètre est la durée de filtrage. Sans lui (comme dans
+l'exemple du paragraphe 4), aucun filtrage n'est demandé au noyau. Sous le
+capot, `attachInterrupt ()` appelle la fonction `setDebounce ()` de la couche
+GPIO de piduino, qui transmet la durée au noyau Linux.
+
+Les fonctions Arduino `attachInterrupt (broche, routine, front)` n'ont pas ce
+paramètre : pour filtrer les rebonds, il faut passer par la classe `Pin`.
+
+### Choisir la durée
+
+- **Trop courte** : des rebonds passent encore.
+- **Trop longue** : on rate les appuis rapides, et la réaction est retardée
+  d'autant, puisque le front n'est signalé qu'une fois la durée écoulée.
+- Pour un bouton, quelques millisecondes à une vingtaine de millisecondes
+  conviennent en général ; le mieux est de la régler en observant les
+  affichages de l'exemple.
+- **Ne filtrez pas un signal rapide.** Un signal de 1 kHz (période de 1 ms) est
+  entièrement effacé par un filtre de 20 ms. Le filtrage est fait pour les
+  contacts mécaniques.
+
+## 6. À retenir
 
 - La **scrutation** lit l'état de la broche en boucle : elle occupe le
   processeur, peut rater une impulsion brève et réagit avec un délai variable.
@@ -271,4 +344,6 @@ un seul appui.
   programme ait à la lancer. Elle doit rester courte.
 - Avec piduino, `attachInterrupt (broche, routine, front)` installe la routine.
   Elle s'exécute dans un fil d'exécution séparé du programme principal.
-- Un bouton mécanique rebondit : prévoyez un filtrage, matériel ou logiciel.
+- Un bouton mécanique rebondit : une seule pression déclenche plusieurs
+  interruptions. Prévoyez un filtrage, matériel ou logiciel, ou demandez au noyau
+  de filtrer avec le paramètre de durée de `Pin::attachInterrupt ()`.
