@@ -100,10 +100,9 @@ pido pwm <pin> 256         # ton = 256, soit α = 256 / 1024 = 25 %
 ```
 
 Le programme ne demande pas le prédiviseur : il le **calcule** à partir de la
-fréquence souhaitée et du `range` courant, en arrondissant à l'entier
-supérieur :
+fréquence souhaitée et du `range` courant :
 
-**div = ⌈ FclkIO / (F × range) ⌉**
+**div = FclkIO / (F × range), arrondi à l'entier supérieur**
 
 Le prédiviseur étant un entier, la fréquence obtenue n'est pas exactement
 celle demandée : `pido pwmf <pin>` affiche la valeur réellement obtenue. Sur
@@ -118,7 +117,8 @@ est **inférieure ou égale** à celle demandée.
 
 Exemple sur une Raspberry Pi 4, avec `range` = 1024 et F = 1000 Hz demandés :
 
-- div = ⌈ 54 000 000 / (1000 × 1024) ⌉ = ⌈ 52,73 ⌉ = **53** ;
+- div = 54 000 000 / (1000 × 1024) = 52,73, arrondi à l'entier supérieur :
+  **53** ;
 - F obtenue = 54 000 000 / 53 / 1024 ≈ **995 Hz**, soit T ≈ 1,005 ms ;
 - ton = 256 donne α = 25 % : la broche reste à l'état haut 256 pas sur 1024.
 
