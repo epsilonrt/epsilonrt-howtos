@@ -17,6 +17,7 @@ Chaque sous-dossier est autonome et contient son propre `README.md`.
 |---|---|
 | [`ssh-key`](ssh-key/) | Créer et utiliser sa clé SSH pour le développement à distance : principe de la paire de clés, mise en place sur un poste Windows en domaine, déclaration de la clé sur une carte Raspberry Pi |
 | [`github`](github/) | Git et GitHub pour les projets d'équipe : principe du contrôle de version, création du compte, organisation d'un projet (équipe, dépôt, tableau Kanban), Git dans VS Code |
+| [`rpi/gpio`](rpi/gpio/) | Entrées-sorties d'une carte Raspberry Pi : le signal PWM (génération par un timer, réglage de la fréquence et du rapport cyclique, filtrage pour obtenir une tension continue) et la détection de fronts par interruption |
 
 ## Ressources
 

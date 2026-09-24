@@ -113,7 +113,7 @@ est **inférieure ou égale** à celle demandée.
 |---|---|---|
 | Raspberry Pi 1, 2, 3, Zero | BCM2835, BCM2836, BCM2837 | 19,2 MHz |
 | Raspberry Pi 4 | BCM2711 | 54 MHz |
-| Raspberry Pi 5 | BCM2712 (contrôleur PWM dans la puce RP1) | 50 MHz |
+| Raspberry Pi 5, Compute Module 5 | BCM2712 (contrôleur PWM dans la puce RP1) | 50 MHz |
 
 Exemple sur une Raspberry Pi 4, avec `range` = 1024 et F = 1000 Hz demandés :
 
@@ -121,6 +121,23 @@ Exemple sur une Raspberry Pi 4, avec `range` = 1024 et F = 1000 Hz demandés :
   **53** ;
 - F obtenue = 54 000 000 / 53 / 1024 ≈ **995 Hz**, soit T ≈ 1,005 ms ;
 - ton = 256 donne α = 25 % : la broche reste à l'état haut 256 pas sur 1024.
+
+### Particularité du RP1 (Raspberry Pi 5 et Compute Module 5)
+
+Sur le RP1, le compteur compte de 0 à `range` **inclus** : une période dure
+donc `range` + 1 pas, et non `range`. La sortie est à l'état haut tant que le
+compteur est strictement inférieur à ton. Trois conséquences :
+
+- **ton = 0** : la sortie reste constamment à l'état bas ;
+- **ton = range** : la sortie n'est *pas* constamment à l'état haut, elle
+  repasse à l'état bas pendant un pas à la fin de chaque période ;
+- **ton = range + 1** : la sortie reste constamment à l'état haut. C'est la
+  valeur maximale acceptée par piduino sur le RP1.
+
+La fréquence réelle est donc FclkIO / (div × (range + 1)), très légèrement
+inférieure à la valeur que calcule `pido` (l'écart est de 1 / range, soit
+environ 0,1 % pour `range` = 1024). Ces informations viennent du datasheet du
+RP1 ; elles n'ont pas été vérifiées par une mesure.
 
 > **Attention à l'ordre des réglages.** `pido pwmf` calcule le prédiviseur avec
 > le `range` *au moment où on l'appelle*. Si vous changez `range` ensuite, le
