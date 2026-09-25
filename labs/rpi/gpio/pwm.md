@@ -190,6 +190,41 @@ supérieure à R (au moins 100 fois, donc ici ≥ 100 kΩ), sinon elle forme ave
 un pont diviseur qui abaisse la tension. Avec une charge moins favorable, on
 intercale un suiveur à amplificateur opérationnel.
 
+### Mesurer l'ondulation à l'oscilloscope
+
+Le filtre produit une **onde triangulaire** : une rampe qui monte pendant ton,
+une rampe qui descend pendant toff, sans pointe aux changements de pente. Si
+l'oscilloscope montre des pointes aux instants de commutation du PWM, elles
+viennent presque toujours de la **mesure** et non du filtre : les fronts
+rapides du signal PWM se couplent dans la sonde et surtout dans son fil de
+masse. Elles gonflent la valeur crête à crête lue à l'écran.
+
+Pour mesurer correctement :
+
+- utilisez une sonde en **×10**, avec un **ressort de masse** (ou le plus court
+  fil de masse possible) branché au plus près du condensateur ;
+- mesurez **aux bornes du condensateur**, en couplage **AC** pour ne voir que
+  l'ondulation, avec la limitation de bande à 20 MHz ;
+- éloignez la sonde et son fil de masse du fil qui transporte le signal PWM ;
+- vérifiez que les pointes viennent bien de la mesure : touchez la masse du
+  circuit avec la pointe de la sonde, PWM en marche. Si les pointes sont
+  toujours là, elles ne sont pas produites par le filtre.
+
+Une autre méthode évite le problème : mesurer la **pente** de la rampe, entre
+deux pointes, avec les curseurs. Pendant ton, la tension monte de
+(Vcc − Vs) / (R × C) par seconde, où Vs est la tension moyenne. Avec les
+valeurs de l'exemple (R = 1 kΩ, C = 10 µF, Vs = 1,65 V), cela fait
+1,65 V / 10 ms = 0,165 V/ms, soit 0,165 mV par µs. Pendant une demi-période
+de 100 µs, la tension monte donc de 16,5 mV : c'est l'ondulation crête à
+crête. Si la pente mesurée correspond, le filtre se comporte comme prévu.
+
+Autre précaution : un condensateur **céramique X7R** perd une bonne partie de
+sa capacité quand une tension continue est appliquée à ses bornes (ici la
+tension moyenne, Vs). Un capacimètre mesure à tension quasi nulle et donne donc
+une valeur trop favorable. Avec un tel condensateur, l'ondulation réelle est
+plus grande que celle calculée ; un condensateur au **film** ou **C0G** n'a pas
+ce défaut.
+
 ### Le compromis ondulation / temps de réaction
 
 Le filtre a deux défauts qui vont dans des sens opposés :
