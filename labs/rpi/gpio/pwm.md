@@ -15,7 +15,7 @@ Un signal PWM est un **signal rectangulaire de fréquence fixe** dont on fait
 varier la **durée à l'état haut**. On ne change pas la cadence, on change la
 part de chaque cadence passée à l'état haut.
 
-![Signal rectangulaire PWM : la période T = 1/F se décompose en une durée ton à l'état haut et une durée toff à l'état bas ; le rapport cyclique est ton/T ; la valeur moyenne du signal vaut le rapport cyclique multiplié par Vcc.](pwm-signal.svg)
+![Signal rectangulaire PWM : la période T = 1/F se décompose en une durée ton à l'état haut et une durée toff à l'état bas ; le rapport cyclique est ton/T ; la valeur moyenne du signal vaut le rapport cyclique multiplié par Vcc.](images/pwm-signal.svg)
 
 ## 2. Les grandeurs qui le caractérisent
 
@@ -164,7 +164,7 @@ passe-bas**. Le plus simple est une cellule RC : une résistance en série, un
 condensateur vers la masse, et la tension continue est prélevée aux bornes du
 condensateur.
 
-![Deux filtres pour extraire la valeur moyenne d'un signal PWM : une cellule RC du premier ordre, et un filtre actif de Sallen-Key du second ordre ; à droite, la réponse à un échelon de rapport cyclique montre que le Sallen-Key atteint sa valeur finale environ quatorze fois plus vite pour une ondulation comparable.](pwm-filtre.svg)
+![Deux filtres pour extraire la valeur moyenne d'un signal PWM : une cellule RC du premier ordre, et un filtre actif de Sallen-Key du second ordre ; à droite, la réponse à un échelon de rapport cyclique montre que le Sallen-Key atteint sa valeur finale environ quatorze fois plus vite pour une ondulation comparable.](images/pwm-filtre.svg)
 
 Le filtre se caractérise par sa constante de temps **τ = R·C**, ou par sa
 fréquence de coupure **fc = 1 / (2π·R·C)**. Pour que la cellule laisse passer

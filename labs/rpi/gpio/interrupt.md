@@ -53,7 +53,7 @@ attendant, le processeur est libre de faire autre chose, ou de dormir.
 Pour prévenir le programme, un circuit matériel surveille la broche en
 permanence. En voici le principe (la réalisation exacte dépend du processeur).
 
-![Circuit de détection de front : un bouton avec résistance de tirage est relié à la broche GPIO ; le signal traverse un trigger de Schmitt, deux bascules qui mémorisent l'état actuel (Q1) et l'état précédent (Q2), des détecteurs de front montant et descendant, une sélection du front choisi, puis un drapeau d'interruption mémorisé qui envoie une demande d'interruption au processeur.](interrupt-detection.svg)
+![Circuit de détection de front : un bouton avec résistance de tirage est relié à la broche GPIO ; le signal traverse un trigger de Schmitt, deux bascules qui mémorisent l'état actuel (Q1) et l'état précédent (Q2), des détecteurs de front montant et descendant, une sélection du front choisi, puis un drapeau d'interruption mémorisé qui envoie une demande d'interruption au processeur.](images/interrupt-detection.svg)
 
 ### Le circuit extérieur
 
@@ -94,7 +94,7 @@ que vous avez écrit : la **routine d'interruption** (en anglais *ISR*, pour
 *Interrupt Service Routine*). C'est une fonction comme une autre, mais que vous
 n'appelez jamais vous-même : c'est le matériel qui la déclenche.
 
-![Interruption de programme : dans le principe, le processeur suspend le programme principal au moment du front, exécute la routine d'interruption, puis reprend le programme là où il s'était arrêté ; avec piduino sous Linux, la routine s'exécute dans un fil d'exécution séparé, réveillé par le noyau, pendant que le programme principal continue.](interrupt-programme.svg)
+![Interruption de programme : dans le principe, le processeur suspend le programme principal au moment du front, exécute la routine d'interruption, puis reprend le programme là où il s'était arrêté ; avec piduino sous Linux, la routine s'exécute dans un fil d'exécution séparé, réveillé par le noyau, pendant que le programme principal continue.](images/interrupt-programme.svg)
 
 Dans le principe (première moitié du schéma) :
 
@@ -294,7 +294,7 @@ détecter. Un changement d'état n'est signalé que s'il est resté stable penda
 cette durée : les rebonds plus courts sont ignorés et la routine n'est appelée
 qu'**une fois** par appui.
 
-![Chronogramme des rebonds d'un bouton : à l'appui et au relâchement, la broche oscille plusieurs fois avant de se stabiliser ; sans filtrage, la routine est appelée à chaque front, soit douze fois ; avec un filtrage de durée D, le noyau attend que le signal reste stable pendant D et la routine n'est appelée qu'une fois pour l'appui et une fois pour le relâchement, avec un retard D.](interrupt-rebond.svg)
+![Chronogramme des rebonds d'un bouton : à l'appui et au relâchement, la broche oscille plusieurs fois avant de se stabiliser ; sans filtrage, la routine est appelée à chaque front, soit douze fois ; avec un filtrage de durée D, le noyau attend que le signal reste stable pendant D et la routine n'est appelée qu'une fois pour l'appui et une fois pour le relâchement, avec un retard D.](images/interrupt-rebond.svg)
 
 La fonction `attachInterrupt ()` de la classe `Pin` accepte cette durée en
 paramètre. Voici l'exemple
