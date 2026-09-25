@@ -171,7 +171,7 @@ plus prudent est de rester à 100 kHz.
 Une fois le bus activé, on peut vérifier que les broches 3 et 5 du connecteur
 (GPIO2 et GPIO3) sont bien configurées pour l'I²C, et non en simples
 entrées-sorties. La commande `pido` de piduino (voir
-[pido](../../ressources/piduino/pido.md)) affiche l'état de toutes les broches :
+[pido](piduino/pido.md)) affiche l'état de toutes les broches :
 
 ```bash
 pido readall

@@ -89,7 +89,7 @@ intervention du programme.
 
 ### Régler F et range avec `pido`
 
-Sur une Raspberry Pi, `pido` (voir [pido](../../ressources/piduino/pido.md))
+Sur une Raspberry Pi, `pido` (voir [pido](piduino/pido.md))
 règle les paramètres du timer matériel avec trois commandes :
 
 ```bash

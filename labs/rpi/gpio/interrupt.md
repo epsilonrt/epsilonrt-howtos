@@ -211,7 +211,7 @@ void loop () {
 ### Faire fonctionner l'exemple
 
 Les numéros de broche de l'exemple suivent la numérotation de piduino
-(voir [pinfo](../../ressources/piduino/pinfo.md)), qui n'est pas celle du
+(voir [pinfo](piduino/pinfo.md)), qui n'est pas celle du
 connecteur : sur une Raspberry Pi, `irqPin` (3) est la broche 15 du connecteur
 (GPIO22) et `ledPin` (0) la broche 11 (GPIO17). Sur une carte qui n'a pas ce
 brochage, adaptez les deux constantes.
